@@ -1,0 +1,41 @@
+:root {
+  --tab-item-border: 2px solid #e0e0e0;
+}
+
+.tabEntry {
+  display: inline-block;
+  border: var(--tab-item-border);
+  border-bottom: none;
+  padding: 16px 48px;
+  background-color: #ddd;
+  position: relative;
+  z-index: 1;
+
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tabEntry:not(:first-child) {
+  border-left: none;
+}
+
+.tabEntry.active {
+  border-top: 4px solid rgb(80, 187, 254);
+  border-bottom: none;
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.tabItem {
+  padding: 32px;
+  border: var(--tab-item-border);
+  height: calc(100vh - 200px);
+  display: none;
+  position: relative;
+  top: -2px;
+  z-index: 0;
+}
+
+.tabItem.active {
+  display: block;
+}
