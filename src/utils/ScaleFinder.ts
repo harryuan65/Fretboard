@@ -5,9 +5,9 @@ type IScaleWithStep = Record<Note, { ord: number; ordNotation: string }>;
 
 class Scale {
   static scaleSteps = {
-    major: [2, 2, 1, 2, 2, 2, 1],
-    minor: [2, 1, 2, 2, 1, 2, 2],
-    diminished: [2, 1, 2, 1, 2, 1, 2, 1],
+    major: [2, 2, 1, 2, 2, 2, 1], // 1, 2, 3, 4, 5, 6, 7, 8
+    minor: [2, 1, 2, 2, 1, 2, 2], // 1, 2, ♭3, 4, 5, ♭6, ♭7, 8
+    diminished: [2, 1, 2, 1, 2, 1, 2, 1], // 1, 2, ♭3, 4, ♭5, ♭6, 6, ♭7, 8
   } as const;
 
   // see steps.txt
