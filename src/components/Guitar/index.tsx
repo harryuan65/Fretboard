@@ -14,7 +14,7 @@ const Guitar = ({ highlightScale }: GuitarProps) => {
     <div className={styles.guitar}>
       {strings.map((stringFrets, i) => {
         return (
-          <div>
+          <div key={`string_${i}`}>
             <div className={styles.stringFrets}>
               {stringFrets.map(({ note, freq }) => {
                 const highlightNote = highlightScale[note];
