@@ -1,5 +1,5 @@
 .guitar {
+  margin-top: 64px;
   max-width: 90vw;
   overflow-x: scroll;
-  margin: auto auto;
 }
