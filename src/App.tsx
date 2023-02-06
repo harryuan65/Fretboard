@@ -1,44 +1,77 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as freq from './freq.json';
 import styles from './App.module.css';
 
-interface StringProps {
-  freqs: number[];
+interface IFret {
+  note: string;
+  freq: number;
 }
 
-const play = (freq: number, duration: number) => {
-  const context = new AudioContext();
-  const gainNode = context.createGain();
-  const oscillator = context.createOscillator();
-  oscillator.frequency.value = freq;
-  oscillator.connect(gainNode);
-  gainNode.connect(context.destination);
-  oscillator.start(0);
-  setTimeout(() => oscillator.stop(), duration);
+interface FretProps extends IFret {}
+
+const Fret = ({ note, freq }: FretProps) => {
+  const [holding, setHolding] = useState(false);
+  const [oscillator, setOscillator] = useState<OscillatorNode | null>(null);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    if (holding && !playing) {
+      const context = new AudioContext();
+      const gainNode = context.createGain();
+      const oscillator = context.createOscillator();
+      oscillator.frequency.value = freq;
+      oscillator.connect(gainNode);
+      gainNode.connect(context.destination);
+      setOscillator(oscillator);
+      oscillator?.start(0);
+      setPlaying(true);
+    } else if (!holding && playing) {
+      oscillator?.stop();
+      setPlaying(false);
+    }
+  }, [freq, oscillator, holding, playing]);
+
+  const hold = () => {
+    if (!holding) {
+      setHolding(true);
+    }
+  };
+
+  const release = () => {
+    setHolding(false);
+  };
+
+  return (
+    <span className={styles.fret} onMouseDown={hold} onMouseUp={release}>
+      {note}
+    </span>
+  );
 };
 
-const String = ({ freqs }: StringProps) => {
+interface GuitarStringProps {
+  frets: IFret[];
+}
+
+const GuitarString = ({ frets }: GuitarStringProps) => {
   return (
     <div className={styles.string}>
-      {freqs.map((freq) => (
-        <span className={styles.fret} onMouseDown={() => play(freq, 300)}>
-          {freq}
-        </span>
+      {frets.map(({ note, freq }) => (
+        <Fret key={String(freq)} note={note} freq={freq} />
       ))}
     </div>
   );
 };
 
 function App() {
-  const { E1, B2, G3, D4, A5, E6 } = freq;
+  const { string1, string2, string3, string4, string5, string6 } = freq;
   return (
     <div className="App">
-      <String freqs={E1} />
-      <String freqs={B2} />
-      <String freqs={G3} />
-      <String freqs={D4} />
-      <String freqs={A5} />
-      <String freqs={E6} />
+      <GuitarString frets={string1} />
+      <GuitarString frets={string2} />
+      <GuitarString frets={string3} />
+      <GuitarString frets={string4} />
+      <GuitarString frets={string5} />
+      <GuitarString frets={string6} />
     </div>
   );
 }
