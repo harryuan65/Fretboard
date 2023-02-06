@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <main className={styles.main}>
-        <Guitar highlightScale={scaleMap} />
+        <Guitar scaleMap={scaleMap} />
         <Tabs>
           <TabItem title="Scale">
             <ScaleFinder setScaleMap={setScaleMap} />
