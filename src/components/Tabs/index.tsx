@@ -30,8 +30,8 @@ const Tabs: React.FC<TabsProps> = ({ children }: TabsProps) => {
     return child;
   });
   return (
-    <div>
-      <div>
+    <div className={styles.tabs}>
+      <div className={styles.tabEntryWrap}>
         {children?.map(({ props }, i) => (
           <span
             key={props.title}
@@ -44,6 +44,7 @@ const Tabs: React.FC<TabsProps> = ({ children }: TabsProps) => {
             {props.title}
           </span>
         ))}
+        <span className={styles.tabEntry}></span>
       </div>
       {updatedChildren}
     </div>

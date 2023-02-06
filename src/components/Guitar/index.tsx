@@ -3,9 +3,9 @@ import freq from '../../contants/freq.json';
 import { IFret } from '../../types/IFret';
 import Fret from '../Fret';
 import styles from './styles.module.css';
-import { IScaleWithStep } from '../../utils/ScaleFinder';
+import { IScaleWithStep } from '../../utils/Scale';
 interface GuitarProps {
-  highlightScale: IScaleWithStep;
+  highlightScale: IScaleWithStep | null;
 }
 
 const Guitar = ({ highlightScale }: GuitarProps) => {
@@ -17,7 +17,7 @@ const Guitar = ({ highlightScale }: GuitarProps) => {
           <div key={`string_${i}`}>
             <div className={styles.stringFrets}>
               {stringFrets.map(({ note, freq }) => {
-                const highlightNote = highlightScale[note];
+                const highlightNote = highlightScale && highlightScale[note];
                 if (!highlightNote) {
                   return <Fret key={String(freq)} note={note} freq={freq} />;
                 } else {
