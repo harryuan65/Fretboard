@@ -6,3 +6,16 @@
   width: 90vw;
   margin: auto auto;
 }
+
+footer {
+  color: #aaa;
+  text-align: center;
+  height: 120px;
+}
+
+footer a,
+footer a:visited,
+footer a:active {
+  color: #aaa;
+  text-decoration: underline;
+}

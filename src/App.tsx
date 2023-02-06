@@ -19,6 +19,17 @@ function App() {
           <TabItem title="Chord">WIP</TabItem>
         </Tabs>
       </main>
+      <footer>
+        Made with Typescript React by{' '}
+        <a
+          href="https://github.com/harryuan65"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          harryuan65
+        </a>
+        .
+      </footer>
     </div>
   );
 }
