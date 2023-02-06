@@ -12,3 +12,13 @@
   min-width: 48px;
   margin-top: 32px;
 }
+
+select {
+  font-size: large;
+}
+
+@media screen and (max-width: 412px) {
+  .note {
+    min-width: 36px;
+  }
+}
