@@ -27,27 +27,45 @@ class Scale {
     12: '1',
   } as const;
 
-  static list(startNote: Note, name: ScaleName) {
-    let index = Notes.all.findIndex((note) => note === startNote);
-    let scaleNotes = {
-      [startNote]: {
+  key: Note;
+  scaleName: ScaleName;
+  scalesCalculated: boolean;
+  scaleNotesMap: IScaleWithStep;
+  scaleNotes: Note[] = [];
+  constructor(key: Note, scaleName: ScaleName) {
+    this.key = key;
+    this.scaleName = scaleName;
+    this.scalesCalculated = false;
+    this.scaleNotesMap = {
+      // initialize with the first note of the key
+      [this.key]: {
         ord: 1,
-        ordNotation: this.intervals[0],
+        ordNotation: Scale.intervals[0],
       },
     } as IScaleWithStep;
-    const steps = this.scaleSteps[name];
-    for (let i = 0, ord = 2; i < steps.length; i++) {
+    this.scaleNotes = [this.key];
+  }
+
+  calculateList() {
+    if (this.scalesCalculated) {
+      return this.scaleNotesMap as IScaleWithStep;
+    }
+    let index = Notes.all.findIndex((note) => note === this.key);
+
+    const steps = Scale.scaleSteps[this.scaleName];
+    for (let i = 0, ord = 2; i < steps.length; i++, ord++) {
       index += steps[i];
       const note = Notes.get(index);
       let intervalDiff = index as keyof typeof Scale['intervals'];
-      scaleNotes[note] = {
-        ord,
-        ordNotation: this.intervals[intervalDiff],
+      // Eb: { ord: 3, ordNotation: "b3" }
+      this.scaleNotesMap[note] = {
+        ord: note === this.key ? 1 : ord,
+        ordNotation: Scale.intervals[intervalDiff],
       };
-      ord += 1;
-      if (ord % 8 === 0) ord = 1;
+      this.scaleNotes.push(note); // "Eb"
     }
-    return scaleNotes;
+    this.scalesCalculated = true;
+    return this.scaleNotesMap;
   }
 }
 

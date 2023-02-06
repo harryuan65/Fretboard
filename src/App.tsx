@@ -5,17 +5,14 @@ import Scale from './utils/ScaleFinder';
 function App() {
   const defaultKey = 'C';
   const defaultScaleType = 'minor';
-  const defaultScale = Scale.list(defaultKey, defaultScaleType);
-  const scaleNotes = Object.entries(defaultScale)
-    .sort(([_noteA, ordInfoA], [_noteB, ordInfoB]) => {
-      return ordInfoA.ord - ordInfoB.ord;
-    })
-    .map(([note, _ord]) => note);
+  const defaultScale = new Scale(defaultKey, defaultScaleType);
+  defaultScale.calculateList();
+  const scaleNotes = defaultScale.scaleNotes;
 
   return (
     <div className="App">
       <br />
-      <Guitar highlightScale={defaultScale} />
+      <Guitar highlightScale={defaultScale.scaleNotesMap} />
       <h2>
         Displaying scale: {defaultKey} {defaultScaleType}
       </h2>
