@@ -1,0 +1,13 @@
+.notes {
+  display: flex;
+  align-items: center;
+}
+
+.note {
+  font-size: x-large;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}

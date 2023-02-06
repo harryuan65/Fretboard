@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Note, Notes } from '../../utils/Notes';
 import Scale, { IScaleWithStep, ScaleName } from '../../utils/Scale';
-
+import styles from './styles.module.css';
 interface ScaleFinderProps {
+  scaleMap: IScaleWithStep | null;
   setScaleMap: React.Dispatch<React.SetStateAction<IScaleWithStep | null>>;
 }
 
-const ScaleFinder = ({ setScaleMap }: ScaleFinderProps) => {
+const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
   const [key, setKey] = useState<Note | ''>('');
   const [scaleType, setScaleType] = useState<ScaleName | ''>('');
   const [scaleNotes, setScaleNotes] = useState<Note[]>([]);
@@ -25,10 +26,11 @@ const ScaleFinder = ({ setScaleMap }: ScaleFinderProps) => {
   }, [key, scaleType, setScaleMap]);
 
   const allNotes = ['', ...Notes.all];
-  const allScaleNames = ['', ...Object.keys(Scale.scaleSteps)];
+  const allScaleNames = ['', ...Object.keys(Scale.available)];
 
   return (
     <div>
+      <h1>Select a KEY and scale:</h1>
       <select
         onChange={(event) =>
           setKey((event.target as HTMLSelectElement).value as Note)
@@ -52,7 +54,14 @@ const ScaleFinder = ({ setScaleMap }: ScaleFinderProps) => {
           </option>
         ))}
       </select>
-      <h3>Notes: {scaleNotes.join(', ')}</h3>
+      <div className={styles.notes}>
+        {scaleNotes.map((note) => (
+          <div className={styles.note}>
+            <span>{note}</span>
+            <span>{scaleMap && scaleMap[note]?.notation}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

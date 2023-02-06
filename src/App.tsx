@@ -14,7 +14,7 @@ function App() {
         <Guitar scaleMap={scaleMap} />
         <Tabs>
           <TabItem title="Scale">
-            <ScaleFinder setScaleMap={setScaleMap} />
+            <ScaleFinder scaleMap={scaleMap} setScaleMap={setScaleMap} />
           </TabItem>
           <TabItem title="你好">World</TabItem>
           <TabItem title="Test">
