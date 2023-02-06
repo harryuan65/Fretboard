@@ -4,11 +4,6 @@
   margin: auto auto;
 }
 
-.stringLineWrap {
-  display: grid;
-  grid-template-columns: 30px 1fr;
-}
-
 .stringFrets {
   display: flex;
 }
