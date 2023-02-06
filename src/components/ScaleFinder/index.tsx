@@ -55,8 +55,8 @@ const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
         ))}
       </select>
       <div className={styles.notes}>
-        {scaleNotes.map((note) => (
-          <div className={styles.note}>
+        {scaleNotes.map((note, i) => (
+          <div key={`scale-note-${note}${i}`} className={styles.note}>
             <span>{note}</span>
             <span>{scaleMap && scaleMap[note]?.notation}</span>
           </div>
