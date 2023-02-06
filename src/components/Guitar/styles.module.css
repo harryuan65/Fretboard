@@ -1,0 +1,8 @@
+.string {
+  display: flex;
+}
+
+.stringNo {
+  width: 24px;
+  margin-right: 12px;
+}

@@ -1,17 +1,43 @@
 import React from 'react';
-import GuitarString from '../GuitarString';
-import * as freq from '../../contants/freq.json';
+import freq from '../../contants/freq.json';
+import { IFret } from '../../types/IFret';
+import Fret from '../Fret';
+import styles from './styles.module.css';
+import { IScaleWithStep } from '../../utils/ScaleFinder';
+interface GuitarProps {
+  highlightScale: IScaleWithStep;
+}
 
-const Guitar = () => {
-  const { string1, string2, string3, string4, string5, string6 } = freq;
+const Guitar = ({ highlightScale }: GuitarProps) => {
+  const strings = freq.strings as IFret[][];
   return (
     <div>
-      <GuitarString frets={string1} />
-      <GuitarString frets={string2} />
-      <GuitarString frets={string3} />
-      <GuitarString frets={string4} />
-      <GuitarString frets={string5} />
-      <GuitarString frets={string6} />
+      {strings.map((stringFrets, i) => {
+        return (
+          <div className={styles.string}>
+            <span className={styles.stringNo}>{i + 1}</span>
+            <div className={styles.string}>
+              {stringFrets.map(({ note, freq }) => {
+                const highlightNote = highlightScale[note];
+                if (!highlightNote) {
+                  return <Fret key={String(freq)} note={note} freq={freq} />;
+                } else {
+                  const { ord, ordNotation } = highlightNote;
+                  return (
+                    <Fret
+                      key={String(freq)}
+                      note={note}
+                      freq={freq}
+                      ord={ord}
+                      ordNotation={ordNotation}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -2,9 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { IFret } from '../../types/IFret';
 import styles from './styles.module.css';
 
-interface FretProps extends IFret {}
+interface FretProps extends IFret {
+  ord?: number;
+  ordNotation?: string;
+}
 
-const Fret = ({ note, freq }: FretProps) => {
+type CriticalNotes = Record<number, string>;
+
+const criticalNotes = {
+  1: 'root',
+  3: 'third',
+  // 5: 'fifth',
+  // 7: 'seventh',
+} satisfies CriticalNotes;
+
+const importantNote = (index: number) => {
+  if (Object.keys(criticalNotes).includes(String(index))) {
+    return criticalNotes[index as keyof typeof criticalNotes];
+  } else {
+    return '';
+  }
+};
+
+const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
   const [holding, setHolding] = useState(false);
   const [oscillator, setOscillator] = useState<OscillatorNode | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -37,14 +57,19 @@ const Fret = ({ note, freq }: FretProps) => {
   };
 
   return (
-    <span
-      className={styles.fret}
+    <button
+      className={[
+        styles.fret,
+        ord && styles.highlight,
+        ord && styles[importantNote(ord)],
+      ].join(' ')}
       onMouseDown={hold}
       onMouseUp={release}
       onMouseLeave={release}
     >
       {note}
-    </span>
+      {ordNotation ? `(${ordNotation})` : ``}
+    </button>
   );
 };
 

@@ -4,8 +4,37 @@
   border: 1px solid gray;
   cursor: pointer;
   user-select: none;
+  position: relative;
+  transition: opacity 0.2s;
 }
 
 .fret:hover {
-  background-color: slategray;
+  opacity: 0.9;
+  transition: opacity 0.1s;
+}
+
+.fret:active {
+  opacity: 0.5;
+  transition: opacity 0.1s;
+}
+
+.fret.highlight {
+  background-color: #222;
+  color: white;
+}
+
+.fret.highlight.root {
+  background-color: brown;
+}
+
+.fret.highlight.third {
+  background-color: darkslateblue;
+}
+
+.fret.highlight.fifth {
+  background-color: teal;
+}
+
+.fret.highlight.seventh {
+  background-color: darkslategrey;
 }

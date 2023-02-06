@@ -1,5 +1,7 @@
+import { Note } from '../utils/Notes';
+
 interface IFret {
-  note: string;
+  note: Note;
   freq: number;
 }
 
