@@ -14,27 +14,27 @@ class Scale {
     },
     minor: {
       steps: [2, 1, 2, 2, 1, 2, 2],
-      notation: ['1', '2', '♭3', '4', '5', '♭6', '♭7', '8'],
+      notation: ['1', '2', 'b3', '4', '5', 'b6', 'b7', '8'],
     },
     diminished: {
       steps: [2, 1, 2, 1, 2, 1, 2, 1],
-      notation: ['1', '2', '♭3', '4', '♭5', '♭6', '6', '♭7', '8'],
+      notation: ['1', '2', 'b3', '4', 'b5', 'b6', '6', 'b7', '8'],
     },
   } as const;
 
   // see steps.txt
   static intervals = {
     0: '1',
-    1: '♭2',
+    1: 'b2',
     2: '2',
-    3: '♭3',
+    3: 'b3',
     4: '3',
     5: '4',
-    6: '♯4',
+    6: '#4',
     7: '5',
-    8: '♭6',
+    8: 'b6',
     9: '6',
-    10: '♭7',
+    10: 'b7',
     11: '7',
     12: '1',
   } as const;
@@ -64,14 +64,15 @@ class Scale {
       return this.scaleNotesMap as IScaleWithStep;
     }
     let index = Notes.all.findIndex((note) => note === this.key);
+    const firstNoteIndex = index;
 
     const scale = Scale.available[this.scaleName];
     const steps = scale.steps;
     for (let i = 0, ord = 2; i < steps.length; i++, ord++) {
       index += steps[i];
       const note = Notes.get(index);
-      let intervalDiff = index as keyof typeof Scale['intervals'];
-      // Eb: { ord: 3, ordNotation: "b3" }
+      let intervalDiff = (index -
+        firstNoteIndex) as keyof typeof Scale['intervals'];
       // don't overwrite C
       if (!this.scaleNotesMap[note]) {
         this.scaleNotesMap[note] = {
