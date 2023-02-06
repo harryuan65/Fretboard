@@ -11,7 +11,6 @@ function App() {
 
   return (
     <div className="App">
-      <br />
       <Guitar highlightScale={defaultScale.scaleNotesMap} />
       <h2>
         Displaying scale: {defaultKey} {defaultScaleType}
