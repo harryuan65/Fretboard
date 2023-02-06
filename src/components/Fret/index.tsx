@@ -66,6 +66,9 @@ const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
       onMouseDown={hold}
       onMouseUp={release}
       onMouseLeave={release}
+      onTouchStart={hold}
+      onTouchCancel={release}
+      onTouchEnd={release}
     >
       {note}
       {ordNotation ? `(${ordNotation})` : ``}
