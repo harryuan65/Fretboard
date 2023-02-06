@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Note, Notes } from '../../utils/Notes';
 import Scale, { IScaleWithStep, ScaleName } from '../../utils/Scale';
 
