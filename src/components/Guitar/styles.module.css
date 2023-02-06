@@ -1,8 +1,14 @@
-.string {
-  display: flex;
+.guitar {
+  max-width: 90vw;
+  overflow-x: scroll;
+  margin: auto auto;
 }
 
-.stringNo {
-  width: 24px;
-  margin-right: 12px;
+.stringLineWrap {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+}
+
+.stringFrets {
+  display: flex;
 }

@@ -11,12 +11,12 @@ interface GuitarProps {
 const Guitar = ({ highlightScale }: GuitarProps) => {
   const strings = freq.strings as IFret[][];
   return (
-    <div>
+    <div className={styles.guitar}>
       {strings.map((stringFrets, i) => {
         return (
-          <div className={styles.string}>
-            <span className={styles.stringNo}>{i + 1}</span>
-            <div className={styles.string}>
+          <div className={styles.stringLineWrap}>
+            <div className={styles.stringNo}>{i + 1}</div>
+            <div className={styles.stringFrets}>
               {stringFrets.map(({ note, freq }) => {
                 const highlightNote = highlightScale[note];
                 if (!highlightNote) {
