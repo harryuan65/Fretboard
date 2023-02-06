@@ -16,17 +16,7 @@ function App() {
           <TabItem title="Scale">
             <ScaleFinder scaleMap={scaleMap} setScaleMap={setScaleMap} />
           </TabItem>
-          <TabItem title="你好">World</TabItem>
-          <TabItem title="Test">
-            <div>
-              <button
-                style={{ cursor: 'pointer' }}
-                onClick={() => console.log('Hello!')}
-              >
-                按按看～
-              </button>
-            </div>
-          </TabItem>
+          <TabItem title="Chord">WIP</TabItem>
         </Tabs>
       </main>
     </div>
