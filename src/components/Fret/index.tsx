@@ -37,7 +37,12 @@ const Fret = ({ note, freq }: FretProps) => {
   };
 
   return (
-    <span className={styles.fret} onMouseDown={hold} onMouseUp={release}>
+    <span
+      className={styles.fret}
+      onMouseDown={hold}
+      onMouseUp={release}
+      onMouseLeave={release}
+    >
       {note}
     </span>
   );
