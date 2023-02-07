@@ -12,7 +12,7 @@ const Guitar = ({ scaleMap }: GuitarProps) => {
   const strings = freq.strings as IFret[][];
   let renderFretNumber = strings[0].map((_fret, i) => {
     let fretNum = null;
-    switch (i + 1) {
+    switch (i) {
       case 3:
       case 5:
       case 7:
@@ -20,7 +20,7 @@ const Guitar = ({ scaleMap }: GuitarProps) => {
       case 12:
       case 15:
       case 17:
-        fretNum = i + 1;
+        fretNum = i;
         break;
     }
     return <span className={styles.fretNum}>{fretNum}</span>;
