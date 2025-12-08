@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Note, Notes } from '../../utils/Notes';
-import Scale, { IScaleWithStep, ScaleName } from '../../utils/Scale';
+import { CHROMATIC_NOTES, NoteName } from '../../utils/Notes';
+import Scale, { IScale, ScaleName } from '../../utils/Scale';
 import styles from './styles.module.css';
 interface ScaleFinderProps {
-  scaleMap: IScaleWithStep | null;
-  setScaleMap: React.Dispatch<React.SetStateAction<IScaleWithStep | null>>;
+  scales: IScale[] | null;
+  setScales: React.Dispatch<React.SetStateAction<IScale[] | null>>;
 }
 
-const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
-  const [key, setKey] = useState<Note | ''>('');
+const ScaleFinder = ({ scales = [], setScales }: ScaleFinderProps) => {
+  const [key, setKey] = useState<NoteName | ''>('');
   const [scaleType, setScaleType] = useState<ScaleName | ''>('');
-  const [scaleNotes, setScaleNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     if (key && scaleType) {
       // Calculate scale map is both of them are present.
       const currentScale = new Scale(key, scaleType);
       currentScale.calculateList();
-      setScaleNotes(currentScale.scaleNotes);
-      setScaleMap(currentScale.scaleNotesMap);
+      setScales(currentScale.scaleNotes);
     } else {
       // Clear all highlighting is either of key and scaleType is empty.
-      setScaleMap(null);
+      setScales(null);
     }
-  }, [key, scaleType, setScaleMap]);
+  }, [key, scaleType, setScales]);
 
-  const allNotes = ['', ...Notes.all];
+  const allNotes = ['', ...CHROMATIC_NOTES];
   const allScaleNames = ['', ...Object.keys(Scale.available)];
 
   return (
@@ -33,7 +31,7 @@ const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
       <h1>Select a KEY and scale:</h1>
       <select
         onChange={(event) =>
-          setKey((event.target as HTMLSelectElement).value as Note)
+          setKey((event.target as HTMLSelectElement).value as NoteName)
         }
       >
         {allNotes.map((note) => (
@@ -55,10 +53,10 @@ const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
         ))}
       </select>
       <div className={styles.notes}>
-        {scaleNotes.map((note, i) => (
-          <div key={`scale-note-${note}${i}`} className={styles.note}>
-            <span>{note}</span>
-            <span>{scaleMap && scaleMap[note]?.ordNotation}</span>
+        {scales?.map((scaleNote, i) => (
+          <div key={`scale-note-${scaleNote.note.name}${i}`} className={styles.note}>
+            <span>{scaleNote.note.name}</span>
+            <span>{scaleNote.ordNotation}</span>
           </div>
         ))}
       </div>

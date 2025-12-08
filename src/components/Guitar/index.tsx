@@ -1,18 +1,19 @@
 import React from 'react';
-import freq from '../../contants/freq.json';
-import { IFret } from '../../types/IFret';
 import styles from './styles.module.css';
-import { IScaleWithStep } from '../../utils/Scale';
+import { IScale } from '../../utils/Scale';
 import GuitarString from '../GuitarString';
+import { Note } from '../../utils/Notes';
 interface GuitarProps {
-  scaleMap: IScaleWithStep | null;
+  tuning: Note[];
+  fretCount: number;
+  scales: IScale[] | null;
 }
 
-const Guitar = ({ scaleMap }: GuitarProps) => {
-  const strings = freq.strings as IFret[][];
-  let renderFretNumber = strings[0].map((_fret, i) => {
+const Guitar = ({ tuning = [], fretCount = 22, scales }: GuitarProps) => {
+  let renderFretNumber = new Array(fretCount).fill(0).map((_fret, i) => {
     let fretNum = null;
     switch (i) {
+      case 0:
       case 3:
       case 5:
       case 7:
@@ -25,17 +26,21 @@ const Guitar = ({ scaleMap }: GuitarProps) => {
     }
     return <span className={styles.fretNum}>{fretNum}</span>;
   });
+
   return (
+    <>
     <div className={styles.guitar}>
-      {strings.map((stringFrets, i) => (
+      {tuning.map((tuningNote, i) => (
         <GuitarString
           key={`string_${i}`}
-          frets={stringFrets}
-          scaleMap={scaleMap}
+          startingNote={tuningNote}
+          fretCount={fretCount}
+          scales={scales}
         />
       ))}
       {<div className={styles.fretNumWrap}>{renderFretNumber}</div>}
     </div>
+    </>
   );
 };
 

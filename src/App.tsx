@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
 import Guitar from './components/Guitar';
 import Tabs, { TabItem } from './components/Tabs';
-import { IScaleWithStep } from './utils/Scale';
+import { IScale } from './utils/Scale';
 import styles from './App.module.css';
 import ScaleFinder from './components/ScaleFinder';
+import { Note } from './utils/Notes';
+
+const defaultTuning = [
+  new Note('E', 4),
+  new Note('B', 3),
+  new Note('G', 3),
+  new Note('D', 3),
+  new Note('A', 2),
+  new Note('E', 2),
+];
 
 function App() {
-  const [scaleMap, setScaleMap] = useState<IScaleWithStep | null>(null); //new Scale('C', 'major').calculateList()
+  const [scales, setScales] = useState<IScale[] | null>(null); // new Scale('C', 'major').calculateList()
 
   return (
     <div className="App">
       <main className={styles.main}>
-        <Guitar scaleMap={scaleMap} />
+        <Guitar tuning={defaultTuning} fretCount={22} scales={scales} />
         <Tabs>
           <TabItem title="Scale">
-            <ScaleFinder scaleMap={scaleMap} setScaleMap={setScaleMap} />
+            <ScaleFinder scales={scales} setScales={setScales} />
           </TabItem>
           <TabItem title="Chord">WIP</TabItem>
         </Tabs>

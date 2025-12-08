@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { IFret } from '../../types/IFret';
 import styles from './styles.module.css';
+import { Note } from '../../utils/Notes';
 
-interface FretProps extends IFret {
+interface FretProps {
+  note: Note;
   ord?: number;
   ordNotation?: string;
 }
@@ -24,7 +25,7 @@ const importantNote = (index: number) => {
   }
 };
 
-const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
+const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
   const [holding, setHolding] = useState(false);
   const [oscillator, setOscillator] = useState<OscillatorNode | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -34,7 +35,7 @@ const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
       const context = new AudioContext();
       const gainNode = context.createGain();
       const oscillator = context.createOscillator();
-      oscillator.frequency.value = freq;
+      oscillator.frequency.value = note.freq;
       oscillator.connect(gainNode);
       gainNode.connect(context.destination);
       setOscillator(oscillator);
@@ -44,7 +45,7 @@ const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
       oscillator?.stop();
       setPlaying(false);
     }
-  }, [freq, oscillator, holding, playing]);
+  }, [note.freq, note.octave, oscillator, holding, playing]);
 
   const hold = () => {
     if (!holding) {
@@ -70,7 +71,7 @@ const Fret = ({ note, freq, ord = 0, ordNotation = '' }: FretProps) => {
       onTouchCancel={release}
       onTouchEnd={release}
     >
-      {note}
+      {note.name}
       {ordNotation ? `(${ordNotation})` : ``}
     </button>
   );

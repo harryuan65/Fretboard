@@ -1,13 +1,11 @@
-import { Note, Notes } from "./Notes";
+import { CHROMATIC_NOTES, Note, NoteName } from "./Notes";
 
 type ScaleName = keyof (typeof Scale)["available"];
-type IScaleWithStep = Record<
-  Note,
-  {
-    ord: number;
-    ordNotation: string;
-  }
->;
+type IScale = {
+  note: Note;
+  ord: number;
+  ordNotation: string;
+};
 
 class Scale {
   static available = {
@@ -39,52 +37,49 @@ class Scale {
     12: "1",
   } as const;
 
-  key: Note;
+  key: NoteName;
   scaleName: ScaleName;
   scalesCalculated: boolean;
-  scaleNotesMap: IScaleWithStep;
-  scaleNotes: Note[] = [];
-  constructor(key: Note, scaleName: ScaleName) {
+  scaleNotes: IScale[];
+
+  constructor(key: NoteName, scaleName: ScaleName) {
     this.key = key;
     this.scaleName = scaleName;
     this.scalesCalculated = false;
-    this.scaleNotesMap = {
-      // initialize with the first note of the key
-      [this.key]: {
+    // initialize with the first note of the key
+    this.scaleNotes = [
+      {
+        note: new Note(this.key),
         ord: 1,
         ordNotation: Scale.intervals[0],
       },
-    } as IScaleWithStep;
-    this.scaleNotes = [this.key];
+    ];
   }
 
   calculateList() {
     if (this.scalesCalculated) {
-      return this.scaleNotesMap as IScaleWithStep;
+      return this.scaleNotes;
     }
-    let index = Notes.all.findIndex((note) => note === this.key);
+    let index = CHROMATIC_NOTES.findIndex((note) => note === this.key);
     const firstNoteIndex = index;
 
     const scale = Scale.available[this.scaleName];
     const steps = scale.steps;
     for (let i = 0, ord = 2; i < steps.length; i++, ord++) {
       index += steps[i];
-      const note = Notes.get(index);
+      const note = Note.getChromaticNote(index);
       let intervalDiff = (index -
         firstNoteIndex) as keyof (typeof Scale)["intervals"];
-      // don't overwrite C
-      if (!this.scaleNotesMap[note]) {
-        this.scaleNotesMap[note] = {
-          ord: note === this.key ? 1 : ord,
-          ordNotation: Scale.intervals[intervalDiff],
-        };
-      }
-      this.scaleNotes.push(note); // "Eb"
+      this.scaleNotes.push({
+        note: note,
+        ord: ord,
+        ordNotation: Scale.intervals[intervalDiff],
+      });
     }
     this.scalesCalculated = true;
-    return this.scaleNotesMap;
+    return this.scaleNotes;
   }
 }
 
-export { type ScaleName, type IScaleWithStep };
+export { type ScaleName, type IScale };
 export default Scale;

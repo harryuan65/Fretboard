@@ -1,36 +1,39 @@
-import React from 'react';
-import { IFret } from '../../types/IFret';
-import { IScaleWithStep } from '../../utils/Scale';
+import React, { useMemo } from 'react';
+import { IScale } from '../../utils/Scale';
 import Fret from '../Fret';
 import styles from './styles.module.css';
+import { Note } from '../../utils/Notes';
 interface GuitarStringProps {
-  frets: IFret[];
-  scaleMap: IScaleWithStep | null;
+  startingNote: Note;
+  fretCount: number;
+  scales: IScale[] | null;
 }
 
-const renderFrets = (fret: IFret, scaleMap: IScaleWithStep | null) => {
-  const { note, freq } = fret;
-  const highlightNote = scaleMap && scaleMap[note];
+const renderFret = (note: Note, scales: IScale[] | null) => {
+  const highlightNote = scales && scales.find((scale) => scale.note.name === note.name);
   if (!highlightNote) {
-    return <Fret key={String(freq)} note={note} freq={freq} />;
+    return <Fret key={String(note.freq)} note={note} />;
   }
 
   const { ord, ordNotation } = highlightNote;
   return (
     <Fret
-      key={String(freq)}
+      key={String(note.freq)}
       note={note}
-      freq={freq}
       ord={ord}
       ordNotation={ordNotation}
     />
   );
 };
-const GuitarString = ({ frets, scaleMap }: GuitarStringProps) => {
+const GuitarString = ({ startingNote, fretCount, scales }: GuitarStringProps) => {
+  const notes = useMemo(() => {
+    return new Array(fretCount).fill(0).map((_fret, i) => startingNote.move(i));
+  }, [startingNote, fretCount]);
+
   return (
     <div>
       <div className={styles.stringFrets}>
-        {frets.map((fret) => renderFrets(fret, scaleMap))}
+        {notes.map((note) => renderFret(note, scales))}
       </div>
     </div>
   );
