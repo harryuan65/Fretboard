@@ -58,7 +58,7 @@ const ScaleFinder = ({ scaleMap, setScaleMap }: ScaleFinderProps) => {
         {scaleNotes.map((note, i) => (
           <div key={`scale-note-${note}${i}`} className={styles.note}>
             <span>{note}</span>
-            <span>{scaleMap && scaleMap[note]?.notation}</span>
+            <span>{scaleMap && scaleMap[note]?.ordNotation}</span>
           </div>
         ))}
       </div>

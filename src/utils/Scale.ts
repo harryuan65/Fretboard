@@ -1,42 +1,42 @@
-import { Note, Notes } from './Notes';
+import { Note, Notes } from "./Notes";
 
-type ScaleName = keyof typeof Scale['available'];
+type ScaleName = keyof (typeof Scale)["available"];
 type IScaleWithStep = Record<
   Note,
-  { ord: number; ordNotation: string; notation: string }
+  {
+    ord: number;
+    ordNotation: string;
+  }
 >;
 
 class Scale {
   static available = {
     major: {
-      steps: [2, 2, 1, 2, 2, 2, 1],
-      notation: ['1', '2', '3', '4', '5', '6', '7', '8'],
+      steps: [2, 2, 1, 2, 2, 2, 1], // ["1", "2", "3", "4", "5", "6", "7", "8"],
     },
     minor: {
-      steps: [2, 1, 2, 2, 1, 2, 2],
-      notation: ['1', '2', 'b3', '4', '5', 'b6', 'b7', '8'],
+      steps: [2, 1, 2, 2, 1, 2, 2], // ["1", "2", "b3", "4", "5", "b6", "b7", "8"],
     },
     diminished: {
-      steps: [2, 1, 2, 1, 2, 1, 2, 1],
-      notation: ['1', '2', 'b3', '4', 'b5', 'b6', '6', 'b7', '8'],
+      steps: [2, 1, 2, 1, 2, 1, 2, 1], //  ["1", "2", "b3", "4", "b5", "b6", "6", "b7", "8"],
     },
   } as const;
 
   // see steps.txt
   static intervals = {
-    0: '1',
-    1: 'b2',
-    2: '2',
-    3: 'b3',
-    4: '3',
-    5: '4',
-    6: '#4',
-    7: '5',
-    8: 'b6',
-    9: '6',
-    10: 'b7',
-    11: '7',
-    12: '1',
+    0: "1",
+    1: "b2",
+    2: "2",
+    3: "b3",
+    4: "3",
+    5: "4",
+    6: "#4",
+    7: "5",
+    8: "b6",
+    9: "6",
+    10: "b7",
+    11: "7",
+    12: "1",
   } as const;
 
   key: Note;
@@ -53,7 +53,6 @@ class Scale {
       [this.key]: {
         ord: 1,
         ordNotation: Scale.intervals[0],
-        notation: '1',
       },
     } as IScaleWithStep;
     this.scaleNotes = [this.key];
@@ -72,13 +71,12 @@ class Scale {
       index += steps[i];
       const note = Notes.get(index);
       let intervalDiff = (index -
-        firstNoteIndex) as keyof typeof Scale['intervals'];
+        firstNoteIndex) as keyof (typeof Scale)["intervals"];
       // don't overwrite C
       if (!this.scaleNotesMap[note]) {
         this.scaleNotesMap[note] = {
           ord: note === this.key ? 1 : ord,
           ordNotation: Scale.intervals[intervalDiff],
-          notation: scale.notation[i + 1],
         };
       }
       this.scaleNotes.push(note); // "Eb"
