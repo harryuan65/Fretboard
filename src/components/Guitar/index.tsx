@@ -3,13 +3,15 @@ import styles from './styles.module.css';
 import { IScale } from '../../utils/Scale';
 import GuitarString from '../GuitarString';
 import { Note } from '../../utils/Notes';
+import { ChordTone } from '../../utils/Chord';
 interface GuitarProps {
   tuning: Note[];
   fretCount: number;
   scales: IScale[] | null;
+  chordTones?: ChordTone[] | null;
 }
 
-const Guitar = ({ tuning = [], fretCount = 22, scales }: GuitarProps) => {
+const Guitar = ({ tuning = [], fretCount = 22, scales, chordTones }: GuitarProps) => {
   let renderFretNumber = new Array(fretCount).fill(0).map((_fret, i) => {
     let fretNum = null;
     switch (i) {
@@ -36,6 +38,7 @@ const Guitar = ({ tuning = [], fretCount = 22, scales }: GuitarProps) => {
           startingNote={tuningNote}
           fretCount={fretCount}
           scales={scales}
+          chordTones={chordTones ?? null}
         />
       ))}
       {<div className={styles.fretNumWrap}>{renderFretNumber}</div>}

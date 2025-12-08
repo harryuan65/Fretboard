@@ -14,7 +14,7 @@ const criticalNotes = {
   1: 'root',
   3: 'third',
   // 5: 'fifth',
-  // 7: 'seventh',
+  7: 'seventh',
 } satisfies CriticalNotes;
 
 const importantNote = (index: number) => {

@@ -1,5 +1,4 @@
 import { ArrayElement } from "../types/ArrayElement";
-import baseFreq from "../contants/base_freq.json";
 
 export const CHROMATIC_NOTES = [
   "C",

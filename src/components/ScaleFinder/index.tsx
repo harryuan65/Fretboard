@@ -5,9 +5,11 @@ import styles from './styles.module.css';
 interface ScaleFinderProps {
   scales: IScale[] | null;
   setScales: React.Dispatch<React.SetStateAction<IScale[] | null>>;
+  onKeyChange?: (key: NoteName | null) => void;
+  onScaleTypeChange?: (scale: ScaleName | null) => void;
 }
 
-const ScaleFinder = ({ scales = [], setScales }: ScaleFinderProps) => {
+const ScaleFinder = ({ scales = [], setScales, onKeyChange, onScaleTypeChange }: ScaleFinderProps) => {
   const [key, setKey] = useState<NoteName | ''>('');
   const [scaleType, setScaleType] = useState<ScaleName | ''>('');
 
@@ -17,11 +19,15 @@ const ScaleFinder = ({ scales = [], setScales }: ScaleFinderProps) => {
       const currentScale = new Scale(key, scaleType);
       currentScale.calculateList();
       setScales(currentScale.scaleNotes);
+      onKeyChange?.(key);
+      onScaleTypeChange?.(scaleType);
     } else {
       // Clear all highlighting is either of key and scaleType is empty.
       setScales(null);
+      onKeyChange?.(null);
+      onScaleTypeChange?.(null);
     }
-  }, [key, scaleType, setScales]);
+  }, [key, scaleType, setScales, onKeyChange, onScaleTypeChange]);
 
   const allNotes = ['', ...CHROMATIC_NOTES];
   const allScaleNames = ['', ...Object.keys(Scale.available)];
