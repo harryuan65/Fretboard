@@ -14,6 +14,7 @@ type Voice = {
 
 // One voice per frequency; simple voice-stealing for repeated hits
 const voices = new Map<number, Voice>();
+let slideVoice: Voice | null = null;
 
 export function toneAttack(freq: number) {
   const ctx = getCtx();
@@ -62,5 +63,58 @@ export function toneRelease(freq: number) {
     // ignore
   } finally {
     voices.delete(freq);
+  }
+}
+
+export function slideStart(freq: number) {
+  const ctx = getCtx();
+  const now = ctx.currentTime;
+  // If already sliding, just retune with a quick ramp
+  if (slideVoice) {
+    slideVoice.osc.frequency.cancelScheduledValues(now);
+    slideVoice.osc.frequency.setTargetAtTime(freq, now, 0.02);
+    return;
+  }
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, now);
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(now);
+  slideVoice = { osc, gain };
+}
+
+export function slideTo(freq: number) {
+  const ctx = getCtx();
+  const now = ctx.currentTime;
+  if (!slideVoice) {
+    // if slide not started (e.g., entered new fret before previous ended), start it here
+    slideStart(freq);
+    return;
+  }
+  slideVoice.osc.frequency.cancelScheduledValues(now);
+  // short linear slide for feel
+  slideVoice.osc.frequency.linearRampToValueAtTime(freq, now + 0.06);
+}
+
+export function slideEnd() {
+  const ctx = getCtx();
+  const now = ctx.currentTime;
+  if (!slideVoice) return;
+  try {
+    slideVoice.gain.gain.cancelScheduledValues(now);
+    slideVoice.gain.gain.setValueAtTime(slideVoice.gain.gain.value, now);
+    slideVoice.gain.gain.linearRampToValueAtTime(0, now + 0.08);
+    slideVoice.osc.stop(now + 0.09);
+    slideVoice.osc.onended = () => {
+      slideVoice?.osc.disconnect();
+      slideVoice?.gain.disconnect();
+    };
+  } catch {
+    // ignore
+  } finally {
+    slideVoice = null;
   }
 }

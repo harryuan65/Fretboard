@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 import { Note } from '../../utils/Notes';
-import { toneAttack, toneRelease } from '../../audio/native';
+import { slideStart, slideTo, slideEnd } from '../../audio/native';
 
 interface FretProps {
   note: Note;
@@ -28,11 +28,12 @@ const importantNote = (index: number) => {
 
 const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
   const hold = async () => {
-    await toneAttack(note.freq);
+    // Use slide voice for continuous note so we can glide to neighbors
+    slideStart(note.freq);
   };
 
   const release = () => {
-    toneRelease(note.freq);
+    slideEnd();
   };
 
   return (
@@ -43,9 +44,23 @@ const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
         ord && styles[importantNote(ord)],
       ].join(' ')}
       onMouseDown={hold}
+      onMouseEnter={(e) => {
+        if ((e.buttons & 1) === 1) {
+          slideTo(note.freq);
+        }
+      }}
       onMouseUp={release}
-      onMouseLeave={release}
+      onMouseLeave={(e) => {
+        // only end slide if not pressing mouse anymore; otherwise let next fret continue sliding
+        if ((e.buttons & 1) === 0) {
+          release();
+        }
+      }}
       onTouchStart={hold}
+      onTouchMove={() => {
+        // when moving over this fret while touching, slide here
+        slideTo(note.freq);
+      }}
       onTouchCancel={release}
       onTouchEnd={release}
     >
