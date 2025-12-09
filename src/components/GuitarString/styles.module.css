@@ -1,3 +1,11 @@
 .stringFrets {
   display: flex;
 }
+
+.nut {
+  display: inline-block;
+  width: 6px;
+  margin: 0 4px;
+  border-right: 3px solid #444;
+  align-self: stretch;
+}
