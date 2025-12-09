@@ -50,6 +50,18 @@ const PRESETS: {
     ],
   },
   {
+    id: 'dadf#ad',
+    label: 'DADF#AD (D4 A3 F#3 D3 A2 D2)',
+    values: [
+      { name: 'D', octave: 4 },
+      { name: 'A', octave: 3 },
+      { name: 'F#', octave: 3 },
+      { name: 'D', octave: 3 },
+      { name: 'A', octave: 2 },
+      { name: 'D', octave: 2 },
+    ],
+  },
+  {
     id: 'open_g',
     label: 'Open G (D4 B3 G3 D3 G2 D2)',
     values: [
@@ -87,7 +99,7 @@ const PRESETS: {
   },
   {
     id: 'careless_whisper',
-    label: 'Careless Whisper (Kent Nishimura)',
+    label: 'Careless Whisper - Kent Nishimura (Eb4 B3 F#3 C#3 F#2 C#2)',
     values: [
       { name: 'Eb', octave: 4 },
       { name: 'B', octave: 3 },
@@ -99,7 +111,7 @@ const PRESETS: {
   },
   {
     id: 'alan_gogoll',
-    label: 'Alan Gogoll',
+    label: 'Alan Gogoll (E4 B3 E3 C#3 A2 E2)',
     values: [
       { name: 'E', octave: 4 },
       { name: 'B', octave: 3 },
