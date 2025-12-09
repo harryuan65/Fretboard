@@ -18,3 +18,46 @@
 .select {
   padding: 4px 8px;
 }
+
+/* Make preset row select expand and be responsive */
+.presetRow .select {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .row {
+    flex-wrap: wrap;
+  }
+  .label {
+    width: 72px;
+    text-align: left;
+  }
+  .select {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Use grid for string rows: label | note | octave */
+  .stringRow {
+    display: grid;
+    grid-template-columns: auto 1fr 64px;
+    gap: 8px;
+    align-items: center;
+  }
+  .stringRow .label {
+    width: auto;
+    min-width: 72px;
+  }
+  .stringRow .select {
+    flex: initial;
+    width: 100%;
+  }
+}

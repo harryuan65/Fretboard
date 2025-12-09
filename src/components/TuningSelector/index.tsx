@@ -123,7 +123,7 @@ const PRESETS: {
   },
   {
     id: 'fingerstyle_g_with_drop_c',
-    label: 'Fingerstyle play G with Drop C',
+    label: 'Fingerstyle play G with Drop C (E4 B3 G3 D3 G2 C2)',
     values: [
       { name: 'E', octave: 4 },
       { name: 'B', octave: 3 },
@@ -140,7 +140,7 @@ const TuningSelector: React.FC<TuningSelectorProps> = ({ tuning, onChange }) => 
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.row}>
+      <div className={[styles.row, styles.presetRow].join(' ')}>
         <span className={styles.label}>Preset</span>
         <select
           className={styles.select}
@@ -168,7 +168,7 @@ const TuningSelector: React.FC<TuningSelectorProps> = ({ tuning, onChange }) => 
         </select>
       </div>
       {tuning.map((note, i) => (
-        <div key={`tuning_row_${i}`} className={styles.row}>
+        <div key={`tuning_row_${i}`} className={[styles.row, styles.stringRow].join(' ')}>
           <span className={styles.label}>String {i + 1}</span>
           <select
             className={styles.select}
