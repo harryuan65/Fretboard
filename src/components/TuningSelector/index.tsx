@@ -85,6 +85,42 @@ const PRESETS: {
       { name: 'Eb', octave: 2 },
     ],
   },
+  {
+    id: 'careless_whisper',
+    label: 'Careless Whisper (Kent Nishimura)',
+    values: [
+      { name: 'Eb', octave: 4 },
+      { name: 'B', octave: 3 },
+      { name: 'F#', octave: 3 },
+      { name: 'C#', octave: 3 },
+      { name: 'F#', octave: 2 },
+      { name: 'C#', octave: 2 },
+    ],
+  },
+  {
+    id: 'alan_gogoll',
+    label: 'Alan Gogoll',
+    values: [
+      { name: 'E', octave: 4 },
+      { name: 'B', octave: 3 },
+      { name: 'E', octave: 3 },
+      { name: 'C#', octave: 3 },
+      { name: 'A', octave: 2 },
+      { name: 'E', octave: 2 },
+    ],
+  },
+  {
+    id: 'fingerstyle_g_with_drop_c',
+    label: 'Fingerstyle play G with Drop C',
+    values: [
+      { name: 'E', octave: 4 },
+      { name: 'B', octave: 3 },
+      { name: 'G', octave: 3 },
+      { name: 'D', octave: 3 },
+      { name: 'G', octave: 2 },
+      { name: 'C', octave: 2 },
+    ],
+  },
 ];
 
 const TuningSelector: React.FC<TuningSelectorProps> = ({ tuning, onChange }) => {
