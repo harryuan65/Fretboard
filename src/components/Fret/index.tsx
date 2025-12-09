@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './styles.module.css';
 import { Note } from '../../utils/Notes';
+import { toneAttack, toneRelease } from '../../audio/native';
 
 interface FretProps {
   note: Note;
@@ -26,35 +27,12 @@ const importantNote = (index: number) => {
 };
 
 const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
-  const [holding, setHolding] = useState(false);
-  const [oscillator, setOscillator] = useState<OscillatorNode | null>(null);
-  const [playing, setPlaying] = useState(false);
-
-  useEffect(() => {
-    if (holding && !playing) {
-      const context = new AudioContext();
-      const gainNode = context.createGain();
-      const oscillator = context.createOscillator();
-      oscillator.frequency.value = note.freq;
-      oscillator.connect(gainNode);
-      gainNode.connect(context.destination);
-      setOscillator(oscillator);
-      oscillator?.start(0);
-      setPlaying(true);
-    } else if (!holding && playing) {
-      oscillator?.stop();
-      setPlaying(false);
-    }
-  }, [note.freq, note.octave, oscillator, holding, playing]);
-
-  const hold = () => {
-    if (!holding) {
-      setHolding(true);
-    }
+  const hold = async () => {
+    await toneAttack(note.freq);
   };
 
   const release = () => {
-    setHolding(false);
+    toneRelease(note.freq);
   };
 
   return (
