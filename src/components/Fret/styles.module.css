@@ -1,5 +1,7 @@
 .fret {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: 64px;
   min-height: 32px;
   border: 1px solid gray;
@@ -38,4 +40,12 @@
 
 .fret.highlight.seventh {
   background-color: darkslateblue;
+}
+
+/* Currently playing visual indicator (non-intrusive, keeps existing highlight colors) */
+.fret.playing {
+  outline: 2px solid #222;
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px rgba(22, 22, 22, 0.4) inset;
+  background-color: seagreen;
 }

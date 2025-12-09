@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.css';
 import { Note } from '../../utils/Notes';
 import { slideStart, slideTo, slideEnd } from '../../audio/native';
@@ -27,26 +27,31 @@ const importantNote = (index: number) => {
 };
 
 const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
+  const [playing, setPlaying] = useState(false);
   const hold = async () => {
     // Use slide voice for continuous note so we can glide to neighbors
     slideStart(note.freq);
+    setPlaying(true);
   };
 
   const release = () => {
     slideEnd();
+    setPlaying(false);
   };
 
   return (
-    <button
+    <span
       className={[
         styles.fret,
         ord && styles.highlight,
         ord && styles[importantNote(ord)],
+        playing && styles.playing,
       ].join(' ')}
       onMouseDown={hold}
       onMouseEnter={(e) => {
         if ((e.buttons & 1) === 1) {
           slideTo(note.freq);
+          setPlaying(true);
         }
       }}
       onMouseUp={release}
@@ -55,18 +60,21 @@ const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
         if ((e.buttons & 1) === 0) {
           release();
         }
+        // 無論是否還在按，都將本格的「播放中」樣式移除
+        setPlaying(false);
       }}
       onTouchStart={hold}
       onTouchMove={() => {
         // when moving over this fret while touching, slide here
         slideTo(note.freq);
+        setPlaying(true);
       }}
       onTouchCancel={release}
       onTouchEnd={release}
     >
       {note.name}
       {ordNotation ? `(${ordNotation})` : ``}
-    </button>
+    </span>
   );
 };
 
