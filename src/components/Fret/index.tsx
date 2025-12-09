@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './styles.module.css';
 import { Note } from '../../utils/Notes';
-import { slideStart, slideTo, slideEnd } from '../../audio/native';
+import { slideStart, slideTo, slideEnd, toneAttack, toneRelease } from '../../audio/native';
 
 interface FretProps {
   note: Note;
@@ -63,14 +63,22 @@ const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
         // 無論是否還在按，都將本格的「播放中」樣式移除
         setPlaying(false);
       }}
-      onTouchStart={hold}
-      onTouchMove={() => {
-        // when moving over this fret while touching, slide here
-        slideTo(note.freq);
+      onTouchStart={() => {
+        // Mobile: only tap (no slide)
+        toneAttack(note.freq);
         setPlaying(true);
       }}
-      onTouchCancel={release}
-      onTouchEnd={release}
+      onTouchMove={() => {
+        // do nothing on move for mobile to avoid slide
+      }}
+      onTouchCancel={() => {
+        toneRelease(note.freq);
+        setPlaying(false);
+      }}
+      onTouchEnd={() => {
+        toneRelease(note.freq);
+        setPlaying(false);
+      }}
     >
       {note.name}
       {ordNotation ? `(${ordNotation})` : ``}
