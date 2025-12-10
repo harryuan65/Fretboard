@@ -17,6 +17,7 @@ function App() {
   const [chordTones, setChordTones] = useState<ChordTone[] | null>(null);
   const [scaleKey, setScaleKey] = useState<NoteName | null>(null);
   const [scaleType, setScaleType] = useState<ScaleName | null>(null);
+  const [capo, setCapo] = useState<number>(0);
 
   return (
     <div className="App">
@@ -26,10 +27,11 @@ function App() {
           fretCount={22}
           scales={chordTones && chordTones.length ? null : scales}
           chordTones={chordTones}
+          capo={capo}
         />
         <Tabs>
           <TabItem title="Tuning">
-            <TuningSelector tuning={tuning} onChange={setString} />
+            <TuningSelector tuning={tuning} onChange={setString} capo={capo} onCapoChange={setCapo} />
           </TabItem>
           <TabItem title="Scale">
             <ScaleFinder

@@ -20,4 +20,5 @@
   left: 0;
   z-index: 10;
   background-color: white;
+  margin-right: 14px; /* 對齊分隔線（nut）的寬度：6px + 4px + 4px */
 }

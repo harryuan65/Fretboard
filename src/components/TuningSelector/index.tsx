@@ -5,6 +5,8 @@ import styles from './styles.module.css';
 interface TuningSelectorProps {
   tuning: Note[];
   onChange: (index: number, name: NoteName, octave: number) => void;
+  capo: number;
+  onCapoChange: (capo: number) => void;
 }
 
 const OCTAVES = Array.from({ length: 9 }, (_, i) => i); // 0..8
@@ -135,11 +137,25 @@ const PRESETS: {
   },
 ];
 
-const TuningSelector: React.FC<TuningSelectorProps> = ({ tuning, onChange }) => {
+const TuningSelector: React.FC<TuningSelectorProps> = ({ tuning, onChange, capo, onCapoChange }) => {
   const [presetId, setPresetId] = useState<string>(PRESETS[0].id);
 
   return (
     <div className={styles.wrap}>
+      <div className={[styles.row, styles.capoRow].join(' ')}>
+        <span className={styles.label}>Capo</span>
+        <input
+          type="number"
+          className={styles.input}
+          min="0"
+          max="22"
+          value={capo}
+          onChange={(e) => {
+            const value = Math.max(0, Math.min(22, parseInt(e.target.value) || 0));
+            onCapoChange(value);
+          }}
+        />
+      </div>
       <div className={[styles.row, styles.presetRow].join(' ')}>
         <span className={styles.label}>Preset</span>
         <select

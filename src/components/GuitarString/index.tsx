@@ -9,6 +9,8 @@ interface GuitarStringProps {
   fretCount: number;
   scales: IScale[] | null;
   chordTones?: ChordTone[] | null;
+  capo?: number;
+  visibleFretCount?: number;
 }
 
 const renderFret = (i:number, note: Note, scales: IScale[] | null, chordTones: ChordTone[] | null | undefined) => {
@@ -67,10 +69,12 @@ const renderFret = (i:number, note: Note, scales: IScale[] | null, chordTones: C
     </>
   ) : fretEl;
 };
-const GuitarString = ({ startingNote, fretCount, scales, chordTones }: GuitarStringProps) => {
+const GuitarString = ({ startingNote, fretCount, scales, chordTones, capo = 0, visibleFretCount }: GuitarStringProps) => {
+  const actualVisibleFretCount = visibleFretCount ?? Math.max(0, fretCount - capo);
   const notes = useMemo(() => {
-    return new Array(fretCount).fill(0).map((_fret, i) => startingNote.move(i));
-  }, [startingNote, fretCount]);
+    // 從 capo 位置開始計算音階，只顯示 capo 之後的琴格
+    return new Array(actualVisibleFretCount).fill(0).map((_fret, i) => startingNote.move(capo + i));
+  }, [startingNote, capo, actualVisibleFretCount]);
 
   return (
     <div>
