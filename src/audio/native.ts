@@ -39,7 +39,7 @@ export function toneAttack(freq: number) {
   osc.type = "sine";
   osc.frequency.setValueAtTime(freq, now);
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.2, now + 0.005); // short attack
+  gain.gain.linearRampToValueAtTime(0.3, now + 0.005); // short attack
   osc.connect(gain).connect(ctx.destination);
   osc.start(now);
   voices.set(freq, { osc, gain });
@@ -80,7 +80,7 @@ export function slideStart(freq: number) {
   osc.type = 'sine';
   osc.frequency.setValueAtTime(freq, now);
   gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(0.2, now + 0.01);
+  gain.gain.linearRampToValueAtTime(0.4, now + 0.01);
   osc.connect(gain).connect(ctx.destination);
   osc.start(now);
   slideVoice = { osc, gain };
