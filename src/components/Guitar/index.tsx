@@ -26,7 +26,7 @@ const Guitar = ({ tuning = [], fretCount = 22, scales, chordTones }: GuitarProps
         fretNum = i;
         break;
     }
-    return <span className={styles.fretNum}>{fretNum}</span>;
+    return <span key={i} className={`${styles.fretNum} ${i === 0 ? styles.firstFretNum : ''}`}>{fretNum}</span>;
   });
 
   return (

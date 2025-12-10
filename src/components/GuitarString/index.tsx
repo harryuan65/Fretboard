@@ -23,6 +23,7 @@ const renderFret = (i:number, note: Note, scales: IScale[] | null, chordTones: C
           note={note}
           ord={ord}
           ordNotation={ord === 1 ? 'R' : String(ord)}
+          isFirstFret={i === 0}
         />
       );
       return i === 0 ? (
@@ -45,6 +46,7 @@ const renderFret = (i:number, note: Note, scales: IScale[] | null, chordTones: C
           note={note}
           ord={ord}
           ordNotation={ordNotation}
+          isFirstFret={i === 0}
         />
       );
       return i === 0 ? (
@@ -57,7 +59,7 @@ const renderFret = (i:number, note: Note, scales: IScale[] | null, chordTones: C
   }
 
   // 3) Default (no highlight)
-  const fretEl = <Fret key={String(note.freq)} note={note} />;
+  const fretEl = <Fret key={String(note.freq)} note={note} isFirstFret={i === 0} />;
   return i === 0 ? (
     <>
       {fretEl}

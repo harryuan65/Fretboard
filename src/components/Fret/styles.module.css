@@ -11,6 +11,16 @@
   transition: opacity 0.2s;
 }
 
+.fret.firstFret {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.fret.firstFret:not(.highlight):not(.playing) {
+  background-color: white;
+}
+
 .fret:hover {
   opacity: 0.9;
   transition: opacity 0.1s;

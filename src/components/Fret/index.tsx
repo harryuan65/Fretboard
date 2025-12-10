@@ -7,6 +7,7 @@ interface FretProps {
   note: Note;
   ord?: number;
   ordNotation?: string;
+  isFirstFret?: boolean;
 }
 
 type CriticalNotes = Record<number, string>;
@@ -26,7 +27,7 @@ const importantNote = (index: number) => {
   }
 };
 
-const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
+const Fret = ({ note, ord = 0, ordNotation = '', isFirstFret = false }: FretProps) => {
   const [playing, setPlaying] = useState(false);
   const hold = async () => {
     // Use slide voice for continuous note so we can glide to neighbors
@@ -43,6 +44,7 @@ const Fret = ({ note, ord = 0, ordNotation = '' }: FretProps) => {
     <span
       className={[
         styles.fret,
+        isFirstFret && styles.firstFret,
         ord && styles.highlight,
         ord && styles[importantNote(ord)],
         playing && styles.playing,
