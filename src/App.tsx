@@ -33,7 +33,7 @@ function App() {
           <TabItem title="Tuning">
             <TuningSelector tuning={tuning} onChange={setString} capo={capo} onCapoChange={setCapo} />
           </TabItem>
-          <TabItem title="Scale">
+          <TabItem title="Scale / Mode">
             <ScaleFinder
               scales={scales}
               setScales={setScales}

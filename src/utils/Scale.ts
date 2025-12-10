@@ -10,13 +10,35 @@ type IScale = {
 class Scale {
   static available = {
     major: {
-      steps: [2, 2, 1, 2, 2, 2, 1], // ["1", "2", "3", "4", "5", "6", "7", "8"],
+      steps: [2, 2, 1, 2, 2, 2, 1], // Ionian mode 1 2 3 4 5 6 7
     },
     minor: {
-      steps: [2, 1, 2, 2, 1, 2, 2], // ["1", "2", "b3", "4", "5", "b6", "b7", "8"],
+      steps: [2, 1, 2, 2, 1, 2, 2], // Aeolian mode 1 2 b3 4 5 b6 b7
     },
     diminished: {
-      steps: [2, 1, 2, 1, 2, 1, 2, 1], //  ["1", "2", "b3", "4", "b5", "b6", "6", "b7", "8"],
+      steps: [2, 1, 2, 1, 2, 1, 2, 1],
+    },
+    // Modes
+    ionian: {
+      steps: [2, 2, 1, 2, 2, 2, 1], // Same as major
+    },
+    dorian: {
+      steps: [2, 1, 2, 2, 2, 1, 2], // 1 2 b3 4 5 6 b7
+    },
+    phrygian: {
+      steps: [1, 2, 2, 2, 1, 2, 2], // 1 b2 b3 4 5 b6 b7
+    },
+    lydian: {
+      steps: [2, 2, 2, 1, 2, 2, 1], // 1 2 3 #4 5 6 7
+    },
+    mixolydian: {
+      steps: [2, 2, 1, 2, 2, 1, 2], // 1 2 3 4 5 6 b7
+    },
+    aeolian: {
+      steps: [2, 1, 2, 2, 1, 2, 2], // Same as minor
+    },
+    locrian: {
+      steps: [1, 2, 2, 1, 2, 2, 2], // 1 b2 b3 4 b5 b6 b7
     },
   } as const;
 

@@ -30,11 +30,14 @@ const ScaleFinder = ({ scales = [], setScales, onKeyChange, onScaleTypeChange }:
   }, [key, scaleType, setScales, onKeyChange, onScaleTypeChange]);
 
   const allNotes = ['', ...CHROMATIC_NOTES];
-  const allScaleNames = ['', ...Object.keys(Scale.available)];
+  
+  // 分類 scale 和 mode
+  const scaleTypes = ['major', 'minor', 'diminished'] as ScaleName[];
+  const modeTypes = ['ionian', 'dorian', 'phrygian', 'lydian', 'mixolydian', 'aeolian', 'locrian'] as ScaleName[];
 
   return (
     <div>
-      <h1>Select a KEY and scale:</h1>
+      <h1>Select a Key, Scale / Mode:</h1>
       <select
         onChange={(event) =>
           setKey((event.target as HTMLSelectElement).value as NoteName)
@@ -51,12 +54,23 @@ const ScaleFinder = ({ scales = [], setScales, onKeyChange, onScaleTypeChange }:
         onChange={(event) =>
           setScaleType((event.target as HTMLSelectElement).value as ScaleName)
         }
+        value={scaleType}
       >
-        {allScaleNames.map((scaleName) => (
-          <option key={`scale-${scaleName}`} value={scaleName}>
-            {scaleName}
-          </option>
-        ))}
+        <option value="">-- Select --</option>
+        <optgroup label="Scales">
+          {scaleTypes.map((scaleName) => (
+            <option key={`scale-${scaleName}`} value={scaleName}>
+              {scaleName}
+            </option>
+          ))}
+        </optgroup>
+        <optgroup label="Modes">
+          {modeTypes.map((scaleName) => (
+            <option key={`scale-${scaleName}`} value={scaleName}>
+              {scaleName.charAt(0).toUpperCase() + scaleName.slice(1)}
+            </option>
+          ))}
+        </optgroup>
       </select>
       <div className={styles.notes}>
         {scales?.map((scaleNote, i) => (
