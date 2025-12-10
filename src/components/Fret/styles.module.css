@@ -59,3 +59,10 @@
   box-shadow: 0 0 0 2px rgba(22, 22, 22, 0.4) inset;
   background-color: seagreen;
 }
+
+/* Mobile: increase fret height by 5px */
+@media (max-width: 768px) {
+  .fret {
+    min-height: 37px; /* 32px + 5px */
+  }
+}
